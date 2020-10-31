@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Audio.OpenMpt
+namespace OpenMpt
 {
     public class Core
     {

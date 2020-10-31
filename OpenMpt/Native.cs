@@ -2,7 +2,7 @@ using System;
 
 using System.Runtime.InteropServices;
 
-namespace Audio.OpenMpt
+namespace OpenMpt
 {
     class Native
     {

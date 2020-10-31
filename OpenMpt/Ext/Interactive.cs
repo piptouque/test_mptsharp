@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Audio.OpenMpt.Ext
+namespace OpenMpt.Ext
 {
     public class Interactive
     {

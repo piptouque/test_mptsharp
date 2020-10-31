@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Audio.OpenMpt
+namespace OpenMpt
 {
     public class Module
     {
