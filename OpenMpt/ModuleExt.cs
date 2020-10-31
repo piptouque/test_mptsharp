@@ -64,7 +64,6 @@ namespace OpenMpt
             // because the internal module will already be unloaded by base class.
             // will have to check.
             Native.ModuleExtDestroy(m_internalModuleExt);
-            int love = 22;
         }
 
         #endregion

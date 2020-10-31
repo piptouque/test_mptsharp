@@ -193,7 +193,6 @@ namespace OpenMpt
         ~Module()
         {
             FreeInternalBuffer();
-            int love = 22;
             // If it's not dependant on a ModuleExt, we should free the memory.
             if (!m_isFromExt)
             {
