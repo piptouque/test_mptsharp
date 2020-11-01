@@ -109,16 +109,13 @@ namespace OpenMpt
         
         #region Delegates
         
-        [UnmanagedFunctionPointer(System.Runtime.InteropServices
-            .CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate Int32 StreamCallback([MarshalAs(UnmanagedType.AnsiBStr)] IntPtr message, IntPtr user);
         
-        [UnmanagedFunctionPointer(System.Runtime.InteropServices
-            .CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate Int32 LogFunc([MarshalAs(UnmanagedType.AnsiBStr)] IntPtr message, IntPtr user);
         
-        [UnmanagedFunctionPointer(System.Runtime.InteropServices
-            .CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate Int32 ErrorFunc(Int32 error, IntPtr user);
         
         #endregion
@@ -180,27 +177,42 @@ namespace OpenMpt
         
         #region Native Interface structure
 
+        /// <summary>
+        /// Struct in direct match with openmpt_module_ext_interface_interactive.
+        /// The fields must be in the same order they appear in the native code!
+        /// The Sequential layout attribute is so that the function pointer fields
+        /// are kept in this order.
+        /// see:
+        /// https://lib.openmpt.org/doc/libopenmpt__ext_8h_source.html
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public struct ModuleExtInterfaceInteractive
         {
             public readonly ModuleExtInterfaceInteractiveSetCurrentSpeed SetCurrentSpeed;
             public readonly ModuleExtInterfaceInteractiveSetCurrentTempo SetCurrentTempo;
+            
             public readonly ModuleExtInterfaceInteractiveSetTempoFactor  SetTempoFactor;
+            public readonly ModuleExtInterfaceInteractiveGetTempoFactor   GetTempoFactor;
+            
             public readonly ModuleExtInterfaceInteractiveSetPitchFactor  SetPitchFactor;
+            public readonly ModuleExtInterfaceInteractiveGetPitchFactor   GetPitchFactor;
+            
             public readonly ModuleExtInterfaceInteractiveSetGlobalVolume SetGlobalVolume;
+            public readonly ModuleExtInterfaceInteractiveGetGlobalVolume  GetGlobalVolume;
+            
             public readonly ModuleExtInterfaceInteractiveSetChannelVolume SetChannelVolume;
+            public readonly ModuleExtInterfaceInteractiveGetChannelVolume GetChannelVolume;
+
             public readonly ModuleExtInterfaceInteractiveSetChannelMuteStatus SetChannelMuteStatus;
+            public readonly ModuleExtInterfaceInteractiveGetChannelMuteStatus GetChannelMuteStatus;
+            
             public readonly ModuleExtInterfaceInteractiveSetInstrumentMuteStatus SetInstrumentMuteStatus;
+            public readonly ModuleExtInterfaceInteractiveGetInstrumentMuteStatus GetInstrumentMuteStatus;
+            
             public readonly ModuleExtInterfaceInteractivePlayNote        PlayNote;
             public readonly ModuleExtInterfaceInteractiveStopNote        StopNote;
             
 
-            public readonly ModuleExtInterfaceInteractiveGetGlobalVolume  GetGlobalVolume;
-            public readonly ModuleExtInterfaceInteractiveGetChannelVolume GetChannelVolume;
-            public readonly ModuleExtInterfaceInteractiveGetPitchFactor   GetPitchFactor;
-            public readonly ModuleExtInterfaceInteractiveGetTempoFactor   GetTempoFactor;
-            public readonly ModuleExtInterfaceInteractiveGetChannelMuteStatus GetChannelMuteStatus;
-            public readonly ModuleExtInterfaceInteractiveGetInstrumentMuteStatus GetInstrumentMuteStatus;
 
         }
 
