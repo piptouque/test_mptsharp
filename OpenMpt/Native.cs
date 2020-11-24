@@ -28,7 +28,12 @@ namespace OpenMpt
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_destroy")]
         public static extern void ModuleDestroy(IntPtr mod);
         
-        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_error_get_last_message")]
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_error_clear")]
+        public static extern void ErrorClear(IntPtr mod);
+        
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_error_get_last")]
+        public static extern Int32 ErrorGetLast(IntPtr mod);
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_error_get_last_message")]
         public static extern IntPtr ErrorGetLastMessage(IntPtr mod);
         
         
@@ -80,6 +85,9 @@ namespace OpenMpt
 
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_num_patterns")]
         public static extern Int32 ModuleGetNumPatterns(IntPtr mod);
+        
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_instrument_name")]
+        public static extern IntPtr ModuleGetInstrumentName(IntPtr mod, Int32 index);
 
         #endregion
         

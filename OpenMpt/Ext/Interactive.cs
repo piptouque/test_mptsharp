@@ -8,12 +8,22 @@ namespace OpenMpt.Ext
 
         #region Public Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="speed">New tick count in range [1, 65535]</param>
+        /// <returns></returns>
         public bool SetCurrentSpeed(int speed)
         {
             int success = m_nativeInteractive.SetCurrentSpeed(m_internalModuleExt, speed);
             return success != 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tempo">New tempo in range [32, 512]</param>
+        /// <returns></returns>
         public bool SetCurrentTempo(int tempo)
         {
             int success = m_nativeInteractive.SetCurrentTempo(m_internalModuleExt, tempo);
@@ -56,10 +66,17 @@ namespace OpenMpt.Ext
             return success != 0;
         }
 
-        public bool PlayNote(int instrument, int note, double volume, double panning)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instrument"></param>
+        /// <param name="note"></param>
+        /// <param name="volume"></param>
+        /// <param name="panning"></param>
+        /// <returns>The channel in which the note is playing. -1 on failure.</returns>
+        public int PlayNote(int instrument, int note, double volume, double panning)
         {
-            int success = m_nativeInteractive.PlayNote(m_internalModuleExt, instrument, note, volume, panning);
-            return success != 0;
+            return m_nativeInteractive.PlayNote(m_internalModuleExt, instrument, note, volume, panning);
         }
         
         public bool StopNote(int channel)

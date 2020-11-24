@@ -40,6 +40,16 @@ namespace OpenMpt
             return Native.ModuleGetRepeatCount(m_internalModule);
         }
 
+        /// <summary>
+        /// Sets repeat count for the music.
+        /// From libopenmptdoc: https://lib.openmpt.org/doc/group__libopenmpt__c.html
+        /// Repeat Count
+        ///   -1: repeat forever
+        ///   0: play once, repeat zero times (the default)
+        ///   n>0: play once and repeat n times after that
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns>true on success, false on failure.</returns>
         public bool SetRepeatCount(int count)
         {
             int success = Native.ModuleSetRepeatCount(m_internalModule, count);
@@ -99,6 +109,13 @@ namespace OpenMpt
         public int GetNumPatterns()
         {
             return Native.ModuleGetNumPatterns(m_internalModule);
+        }
+
+        public string GetInstrumentName(int index)
+        {
+            IntPtr dataPtr = Native.ModuleGetInstrumentName(m_internalModule, index);
+            string data = Marshal.PtrToStringAnsi(dataPtr);
+            return data;
         }
 
         /// <summary>
@@ -166,7 +183,7 @@ namespace OpenMpt
             {
                 throw new ArgumentException(
                     "File at path: " + path + " could not be loaded. Err: "
-                    + ErrorGetLastMessage(this)
+                    + ErrorGetLastMessage()
                 );
             }
 
@@ -224,12 +241,20 @@ namespace OpenMpt
 
 
         #region Error Handling
-        public static String ErrorGetLastMessage(Module module)
+
+        public void ErrorClear()
         {
-            IntPtr ptr = Native.ErrorGetLastMessage(module.m_internalModule);
+            Native.ErrorClear(m_internalModule);
+        }
+        public int ErrorGetLast()
+        {
+            return Native.ErrorGetLast(m_internalModule);
+        }
+        public String ErrorGetLastMessage()
+        {
+            IntPtr ptr = Native.ErrorGetLastMessage(m_internalModule);
             return Marshal.PtrToStringAnsi(ptr);
         }
-        
 
         #endregion
 
@@ -248,7 +273,7 @@ namespace OpenMpt
 
         #endregion
 
-        #region Public Metadata keys.
+        #region Public Metadata keys
 
         /// <summary>
         /// see: https://lib.openmpt.org/doc/group__libopenmpt__c.html#gac171f8fb2c7a0b998855956069159068

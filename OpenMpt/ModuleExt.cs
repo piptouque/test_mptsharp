@@ -45,7 +45,7 @@ namespace OpenMpt
             {
                 throw new ArgumentException(
                     "File at path: " + path + " could not be loaded. Err: "
-                    + Module.ErrorGetLastMessage(GetModule())
+                    + GetModule().ErrorGetLastMessage()
                 );
             }
             m_internalModuleExt = internalModuleExt;
