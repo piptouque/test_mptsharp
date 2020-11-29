@@ -6,6 +6,26 @@ namespace OpenMpt
 {
     public class Module
     {
+        #region Render Parameters
+        public enum RenderParam
+        {
+            eRenderMasterGainMillibel = 1,
+            eRenderStereoSeperationPercent = 2,
+            eRenderInterpolationFilterLength = 3,
+            eRenderVolumeRampingStrength = 4
+        }
+
+        public int GetRenderParam(RenderParam param)
+        {
+            return Native.ModuleGetRenderParam(m_internalModule, (int) param);
+        }
+
+        public bool SetRenderParam(RenderParam param, int value)
+        {
+            int success = Native.ModuleSetRenderParam(m_internalModule, (int) param, value);
+            return success != 0;
+        }
+        #endregion
         
         #region Public Methods
 
@@ -123,18 +143,16 @@ namespace OpenMpt
         /// </summary>
         /// <param name="sampleRate"></param>
         /// <param name="count">number of samples?</param>
-        /// <param name="data">output data</param>
+        /// <param name="mono">output data</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public long ReadFloatMono(int sampleRate, long count, float[] data)
+        public long Read(int sampleRate, long count, float[] mono)
         {
-            // User should make sure data's size is greater than count.
-            if (count > data.LongLength)
+            // User should make sure data.Length size is greater than count.
+            if (count > mono.LongLength)
             {
                 throw new ArgumentException(
-                    String.Format(
-                        "data of size {0} is not large enough for output of size {1}"
-                        , data.LongLength, count)
+                       $"data of size {mono.LongLength} is not large enough for output of size {count}"
                     );
             }
             if (count > m_internalOutputBufferSize)
@@ -148,7 +166,57 @@ namespace OpenMpt
                 (UIntPtr)count,
                 m_internalOutputBuffer
                 );
-            Marshal.Copy(m_internalOutputBuffer, data, 0, (int)actualNumberFrames);
+            Marshal.Copy(m_internalOutputBuffer, mono, 0, (int)actualNumberFrames);
+
+            return actualNumberFrames;
+        }
+
+        public long ReadInterleavedQuad(int sampleRate, long count, float[] interleavedQuad)
+        {
+            // todo: shameful copy-paste
+            if (count > interleavedQuad.LongLength)
+            {
+                throw new ArgumentException(
+                       $"data of size {interleavedQuad.LongLength} is not large enough for output of size {count}"
+                    );
+            }
+            if (count > m_internalOutputBufferSize)
+            {
+                ResizeInternalBuffer((int)count);
+            }
+            long actualNumberFrames = 
+                Native.ModuleReadInterleavedFloatQuad(
+                m_internalModule, 
+                sampleRate, 
+                (UIntPtr)count,
+                m_internalOutputBuffer
+                );
+            Marshal.Copy(m_internalOutputBuffer, interleavedQuad, 0, (int)actualNumberFrames);
+
+            return actualNumberFrames;
+        }
+
+        public long ReadInterleavedStereo(int sampleRate, long count, float[] interleavedStereo)
+        {
+            // todo: shameful copy-paste
+            if (count > interleavedStereo.LongLength)
+            {
+                throw new ArgumentException(
+                       $"data of size {interleavedStereo.LongLength} is not large enough for output of size {count}"
+                    );
+            }
+            if (count > m_internalOutputBufferSize)
+            {
+                ResizeInternalBuffer((int)count);
+            }
+            long actualNumberFrames = 
+                Native.ModuleReadInterleavedFloatStereo(
+                m_internalModule, 
+                sampleRate, 
+                (UIntPtr)count,
+                m_internalOutputBuffer
+                );
+            Marshal.Copy(m_internalOutputBuffer, interleavedStereo, 0, (int)actualNumberFrames);
 
             return actualNumberFrames;
         }
@@ -238,8 +306,6 @@ namespace OpenMpt
         
         #endregion
         
-
-
         #region Error Handling
 
         public void ErrorClear()

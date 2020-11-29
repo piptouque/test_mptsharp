@@ -78,6 +78,14 @@ namespace OpenMpt
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_read_float_mono")]
         public static extern Int32 ModuleReadFloatMono(IntPtr mod, Int32 sampleRate, UIntPtr count, IntPtr mono);
         
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_read_interleaved_float_quad")]
+        public static extern Int32 ModuleReadInterleavedFloatQuad(
+            IntPtr mod, Int32 sampleRate, UIntPtr count, IntPtr interleavedQuad);
+        
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_read_interleaved_float_stereo")]
+        public static extern Int32 ModuleReadInterleavedFloatStereo(
+            IntPtr mod, Int32 sampleRate, UIntPtr count, IntPtr interleavedStereo);
+        
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_num_channels")]
         public static extern Int32 ModuleGetNumChannels(IntPtr mod);
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_num_instruments")]
@@ -89,6 +97,11 @@ namespace OpenMpt
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_instrument_name")]
         public static extern IntPtr ModuleGetInstrumentName(IntPtr mod, Int32 index);
 
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_set_render_param")]
+        public static extern int ModuleSetRenderParam(IntPtr mod, Int32 param, Int32 value);
+        
+        [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_render_param")]
+        public static extern Int32 ModuleGetRenderParam(IntPtr mod, Int32 param);
         #endregion
         
         #region ModuleExt class
