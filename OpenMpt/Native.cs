@@ -242,14 +242,36 @@ namespace OpenMpt
 
     static class Import
     {
+        // 
+        // checkout this life-saving post:
+        // https://forum.unity.com/threads/unity-dllnotfoundexception-when-adding-so-plugins.379721/
+#if   !NO_UNITY
+    #if   UNITY_EDITOR_OSX     || UNITY_STANDALONE_OSX
+        public const string c_openMptLib = "libopenmptBundle";
+    #elif UNITY_EDITOR_WINDOWS || UNITY_STANDALONE_WINDOWS
+        public const string c_openMptLib = "libopenmptDLL";
+	#elif UNITY_EDITOR_LINUX
         public const string c_openMptLib = "libopenmpt";
-
+    #elif UNITY_STANDALONE_LINUX
+        public const string c_openMptLib = "libopenmptSO";
+    #elif UNITY_IOS
+        public const string c_openMptLib = "__Internal";
+    #elif UNITY_ANDROID
+        public const string c_openMptLib = "libopenmptAndroid";
+    #elif UNITY_EDITOR
+        public const string c_openMptLib = "libopenmpt";
+    #endif
+#else
+        // todo? maybe.
+        public const string c_openMptLib = "libopenmpt";
         public const string c_win32Dir = "Win32";
         public const string c_linuxDir = "Linux";
         public const string c_OsxDir   = "OSX";
 
         public const string c_32BitDir = "x86";
         public const string c_64BitDir = "x86-64";
+#endif
+
     }
 
 }
