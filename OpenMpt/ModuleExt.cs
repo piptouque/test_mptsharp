@@ -23,9 +23,12 @@ namespace OpenMpt
         
         #region Life-cycle
 
-        public ModuleExt(string path) 
+        public ModuleExt(string path) : this(File.ReadAllBytes(path))
         {
-            byte[] data = File.ReadAllBytes(path);
+        }
+
+        public ModuleExt(byte[] data)
+        {
             IntPtr dataPtr = Marshal.AllocHGlobal(data.Length * sizeof(byte));
             Marshal.Copy(data, 0, dataPtr, data.Length);
             IntPtr internalModuleExt = 
@@ -44,8 +47,7 @@ namespace OpenMpt
             if (internalModuleExt == IntPtr.Zero)
             {
                 throw new ArgumentException(
-                    "File at path: " + path + " could not be loaded. Err: "
-                    + GetModule().ErrorGetLastMessage()
+                    "File could not be loaded."
                 );
             }
             m_internalModuleExt = internalModuleExt;
@@ -56,6 +58,7 @@ namespace OpenMpt
            
             // Register interactive (also composition)
             m_interactive = new Ext.Interactive(m_internalModuleExt);
+            
         }
 
         ~ModuleExt()

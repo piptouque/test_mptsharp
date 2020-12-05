@@ -229,9 +229,12 @@ namespace OpenMpt
         /// </summary>
         /// <param name="path">absolute path to module file.</param>
         /// <exception cref="ArgumentException">On Failure to load file at path.</exception>
-        public Module(string path)
+        public Module(string path) : this(File.ReadAllBytes(path))
         {
-            byte[] data = File.ReadAllBytes(path);
+        }
+
+        public Module(byte[] data)
+        {
             IntPtr dataPtr = Marshal.AllocHGlobal(data.Length * sizeof(byte));
             Marshal.Copy(data, 0, dataPtr, data.Length);
             IntPtr internalModule = 
@@ -250,8 +253,7 @@ namespace OpenMpt
             if (internalModule == IntPtr.Zero)
             {
                 throw new ArgumentException(
-                    "File at path: " + path + " could not be loaded. Err: "
-                    + ErrorGetLastMessage()
+                    "File could not be loaded."
                 );
             }
 
