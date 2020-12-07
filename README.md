@@ -19,7 +19,7 @@ Now with partial support of module, module_ext, and the interactive extension.
 
 
 As is shown here, I tried to match C++ namespaces and class names, however I
-decided to use C# naming conversions with Pascal-case for classes and
+decided to use C# naming conventions with Pascal-case for classes and
 namespaces.
 
 ##### How to use

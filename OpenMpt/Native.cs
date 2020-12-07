@@ -246,14 +246,16 @@ namespace OpenMpt
         // checkout this life-saving post:
         // https://forum.unity.com/threads/unity-dllnotfoundexception-when-adding-so-plugins.379721/
 #if   !NO_UNITY
-    #if UNITY_EDITOR
+    #if UNITY_EDITOR_LINUX
+        public const string c_openMptLib = "openmpt";
+    #elif UNITY_EDITOR
         public const string c_openMptLib = "libopenmpt";
     #elif UNITY_STANDALONE_OSX
         public const string c_openMptLib = "libopenmptBundle";
     #elif UNITY_STANDALONE_WIN
         public const string c_openMptLib = "libopenmpt";
     #elif UNITY_STANDALONE_LINUX
-        public const string c_openMptLib = "libopenmptSO";
+        public const string c_openMptLib = "openmpt";
     #elif UNITY_IOS
         public const string c_openMptLib = "__Internal";
     #elif UNITY_ANDROID
