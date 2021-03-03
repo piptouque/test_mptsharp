@@ -15,9 +15,13 @@ namespace OpenMpt
             eRenderVolumeRampingStrength = 4
         }
 
-        public int GetRenderParam(RenderParam param)
+        public bool GetRenderParam(RenderParam param, out int value)
         {
-            return Native.ModuleGetRenderParam(m_internalModule, (int) param);
+            IntPtr ptr = Marshal.AllocHGlobal(1 * sizeof(int));
+            bool success = Native.ModuleGetRenderParam(m_internalModule, (int) param, ptr) != 0;
+            value = success ? Marshal.ReadInt32(ptr) : -1;
+            Marshal.FreeHGlobal(ptr);
+            return success;
         }
 
         public bool SetRenderParam(RenderParam param, int value)

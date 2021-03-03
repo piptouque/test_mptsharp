@@ -98,10 +98,10 @@ namespace OpenMpt
         public static extern IntPtr ModuleGetInstrumentName(IntPtr mod, Int32 index);
 
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_set_render_param")]
-        public static extern int ModuleSetRenderParam(IntPtr mod, Int32 param, Int32 value);
+        public static extern Int32 ModuleSetRenderParam(IntPtr mod, Int32 param, Int32 value);
         
         [DllImport(Import.c_openMptLib, EntryPoint = "openmpt_module_get_render_param")]
-        public static extern Int32 ModuleGetRenderParam(IntPtr mod, Int32 param);
+        public static extern Int32 ModuleGetRenderParam(IntPtr mod, Int32 param, IntPtr value);
         #endregion
         
         #region ModuleExt class
