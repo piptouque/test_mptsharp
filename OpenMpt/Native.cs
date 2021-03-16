@@ -251,7 +251,7 @@ namespace OpenMpt
     #elif UNITY_EDITOR
         public const string c_openMptLib = "libopenmpt";
     #elif UNITY_STANDALONE_OSX
-        public const string c_openMptLib = "libopenmptBundle";
+        public const string c_openMptLib = "libopenmpt";
     #elif UNITY_STANDALONE_WIN
         public const string c_openMptLib = "libopenmpt";
     #elif UNITY_STANDALONE_LINUX
